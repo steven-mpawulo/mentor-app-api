@@ -1,11 +1,17 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const userRoute = require('./routes/userRoute');
 require('dotenv').config();
+
+app.use(express.json());
 
 app.get('/', (req, res) => {
     res.json({"message": "welcome to my server"});
 });
+
+app.use('/api/v1', userRoute);
+
 
 const port = process.env.PORT || 5001;
 mongoose.connect(process.env.DB_URL).then((value) => {
