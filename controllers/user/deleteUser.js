@@ -9,6 +9,8 @@ const deleteUser = async (req, res) => {
             console.log(value);
             if(value !== null) {
                 res.status(200).json({"message": "user deleted", "user": value});
+            } else {
+                res.status(400).json({"message": "user already deleted"});
             }
         }).catch((e) => {
             console.log(e);
