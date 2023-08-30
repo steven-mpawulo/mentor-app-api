@@ -1,10 +1,10 @@
 const express = require('express');
+const user = require('../models/user');
+const createUser = require('../controllers/user/createUser');
 const userRoute = express.Router();
 
 
-userRoute.post('/users', (req, res) => {
-    res.json({"message": "user router works"})
-});
+userRoute.post('/users', createUser);
 
 
 module.exports = userRoute;
