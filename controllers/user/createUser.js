@@ -1,4 +1,5 @@
 const user = require("../../models/user");
+const bcrypt = require('bcrypt');
 
 const createUser = async (req, res) => {
     const body = req.body;
@@ -6,11 +7,12 @@ const createUser = async (req, res) => {
 
     if(Object.keys(body).length !== 0) {
         if (body.firstName && body.lastName && body.email && body.password && body.role) {
+            const hashedPassword = await bcrypt.hash(body.password, 10);
             const User = new user({
                 "firstName": body.firstName,
                 "lastName": body.lastName,
                 "email": body.email,
-                "password": hashsedPassword,
+                "password": hashedPassword,
                 "role": body.role,
 
             });
