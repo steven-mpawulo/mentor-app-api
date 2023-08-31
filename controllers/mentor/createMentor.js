@@ -16,6 +16,7 @@ const createMentor = async (req, res) => {
                     "email": body.email,
                     "userId": value._id,
                     "expertise": body.expertise,
+                    "experience": body.experience,
                 });
                 await newMentor.save().then((value) => {
                     console.log(value);

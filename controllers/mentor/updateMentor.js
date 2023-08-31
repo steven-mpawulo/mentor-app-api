@@ -8,9 +8,9 @@ const updateMentor = async (req, res) => {
 
     if (mentorId !== null) {
         if (Object.keys(body).length !== null) {
-            await mentor.findByIdAndUpdate({ '_id': mentorId }, { $set: { "firstName": body.firstName, "lastName": body.lastName, "email": body.email, "expertise": body.expertise, "experience": body.experience } }).then((value) => {
+            await mentor.findByIdAndUpdate({ '_id': mentorId }, { $set: { "firstName": body.firstName, "lastName": body.lastName, "email": body.email, "expertise": body.expertise, "experience": body.experience } }, {new: true}).then((value) => {
                 console.log(value);
-                res.status(201).json({"message": "mentor updated"});
+                res.status(201).json({"message": "mentor updated", "mentor": value, });
 
              }).catch((e) => {
                 console.log(e);
