@@ -18,7 +18,10 @@ const mentorSchema = new mongoose.Schema({
         ref: 'mentorUser'
     },
     expertise: [],
+    experience: {
+        type: Number,
+    },
     
-});
+}, {timestamps: true});
 
 module.exports = mongoose.model('mentor', mentorSchema);

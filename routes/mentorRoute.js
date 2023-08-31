@@ -3,3 +3,6 @@ const createMentor = require('../controllers/mentor/createMentor');
 const mentorRoute = express.Router();
 
 mentorRoute.post('/mentors/:id', createMentor);
+
+
+module.exports = mentorRoute;
