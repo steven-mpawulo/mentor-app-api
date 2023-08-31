@@ -21,6 +21,7 @@ const mentorSchema = new mongoose.Schema({
     experience: {
         type: Number,
     },
+    mentees: [],
     
 }, {timestamps: true});
 
