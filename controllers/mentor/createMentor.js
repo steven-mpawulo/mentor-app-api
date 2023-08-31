@@ -1,7 +1,7 @@
 const mentor = require("../../models/mentor");
 const user = require("../../models/user");
 
-const createUser = async (req, res) => {
+const createMentor = async (req, res) => {
     const userId = req.params.id;
     const body = req.body;
     const role = "MENTOR";
@@ -39,4 +39,4 @@ const createUser = async (req, res) => {
     }
 }
 
-module.exports = createUser;
+module.exports = createMentor;
