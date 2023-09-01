@@ -9,30 +9,40 @@ const getMatched = async (req, res) => {
     console.log(menteeId);
 
     if (mentorId !== null && menteeId !== null) {
-        const match = new match({
-            between: [mentorId, menteeId],
-        });
 
-        await match.save().then(async (value) => {
-            console.log(value);
-            await mentor.findByIdAndUpdate({'_id': mentorId}, {$addToSet: {"mentees": menteeId}}).exec().then(async (value) => {
-                console.log(value);
-                await mentee.findByIdAndUpdate({'_id': menteeId}, {$set: {"mentor": mentorId}}).then((value) => {
+        await match.findOne({'between': [mentorId, menteeId]}).exec().then( async (value) => {
+            if(value === null) {
+                const newMatch = new match({
+                    between: [mentorId, menteeId],
+                });
+                
+                await newMatch.save().then(async (value) => {
                     console.log(value);
+                    await mentor.findByIdAndUpdate({'_id': mentorId}, {$addToSet: {"mentees": menteeId}}).exec().then(async (value) => {
+                        console.log(value);
+                        await mentee.findByIdAndUpdate({'_id': menteeId}, {$set: {"mentor": mentorId}}).then((value) => {
+                            console.log(value);
+                        }).catch((e) => {
+                            console.log(e);
+                            res.status(400).json({"message": "failed to update mentee"});
+                        });
+                    }).catch((e) => {
+                        console.log(e);
+                        res.status(400).json({"message": "failed to update mentor"});
+                    });
+                    res.status(200).json({"message": "match created", "match": value});
                 }).catch((e) => {
                     console.log(e);
-                    res.status(400).json({"message": "failed to update mentee"});
+                    res.status(400).json({"message": "failed to create match"});
                 });
-            }).catch((e) => {
-                console.log(e);
-                res.status(400).json({"message": "failed to update mentor"});
-            });
-            res.status(200).json({"message": "match created", "match": value});
+                
+            } else {
+                res.status(400).json({"message": "match already exists"});
+            }
         }).catch((e) => {
             console.log(e);
-            res.status(400).json({"message": "failed to create match"});
-        })
-
+            res.status(400).json({"message": "failed to find match"});
+        });
     } else {
         res.status(400).json({"message": "please provide mentor and mentee id"});
     }
