@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const userRoute = require('./routes/userRoute');
 const mentorRoute = require('./routes/mentorRoute');
 const menteeRoute = require('./routes/menteeRoute');
+const matchRoute = require('./routes/matchRoute');
 require('dotenv').config();
 
 app.use(express.json());
@@ -12,7 +13,7 @@ app.get('/', (req, res) => {
     res.json({"message": "welcome to my server"});
 });
 
-app.use('/api/v1', userRoute, mentorRoute, menteeRoute);
+app.use('/api/v1', userRoute, mentorRoute, menteeRoute, matchRoute);
 
 
 
