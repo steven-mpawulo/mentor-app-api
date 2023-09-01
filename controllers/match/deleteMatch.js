@@ -7,7 +7,7 @@ const deleteMatch = async (req, res) => {
         await match.findByIdAndDelete({'_id': matchId}).exec().then((value) => {
             console.log(value);
             if (value !== null) {
-                res.status(200).json({"message": "match deleted"});
+                res.status(200).json({"message": "match deleted", "match": value});
             } else {
                 res.status(400).json({"message": "match already deleted"});
             }
