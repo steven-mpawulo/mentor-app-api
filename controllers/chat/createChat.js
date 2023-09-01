@@ -1,9 +1,12 @@
 const chat = require("../../models/chat");
 const match = require("../../models/match");
+const mongoose = require('mongoose');
 
 const createChat = async (req, res) => {
-    const mentorId = req.params.id;
-    const menteeId = req.params.id2;
+    const mentorId = new mongoose.Types.ObjectId(req.params.id);
+    console.log(mentorId);
+    const menteeId = new mongoose.Types.ObjectId(req.params.id2);
+    console.log(menteeId);
 
     if (mentorId !== null && menteeId !== null) {
         await chat.findOne({ 'between': [mentorId, menteeId] }).exec().then(async (value) => {
