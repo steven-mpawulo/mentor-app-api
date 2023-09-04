@@ -8,47 +8,54 @@ const updateChat = async (req, res) => {
     console.log(body);
 
     if (mentorId !== null && menteeId !== null) {
-          let sender;
-          let receiver;
+        let sender;
+        let receiver;
         if (Object.keys(body).length !== 0) {
-            if (body.sender === "mentor") {
-                sender = mentorId;
-                receiver = menteeId;
-            } else if (body.sender === "mentee"){
-                sender = menteeId;
-                receiver = mentorId;
-            } else {
-                res.status(400).json({"message": "please provide sender value as mentor or mentee"});
-            }
-            const newMessage = message({
-                message: body.message,
-                sender: sender,
-                receiver:receiver,
-            });
+            if (body.message !== null) {
+                if (body.sender === "mentor") {
+                    sender = mentorId;
+                    receiver = menteeId;
+                } else if (body.sender === "mentee") {
+                    sender = menteeId;
+                    receiver = mentorId;
+                } else {
+                    res.status(400).json({ "message": "please provide sender value as mentor or mentee" });
+                }
+                const newMessage = message({
+                    message: body.message,
+                    sender: sender,
+                    receiver: receiver,
+                });
 
-            await newMessage.save().then( async (value) => {
-                console.log(value);
-                await chat.findOneAndUpdate({'between': [mentorId, menteeId]}, {$addToSet: {
-                    "messages": value,
-                }}, {new: true}).then((value) => {
+                await newMessage.save().then(async (value) => {
                     console.log(value);
-                    res.status(201).json({"message": "message added", "chat": value});
-                    
+                    await chat.findOneAndUpdate({ 'between': [mentorId, menteeId] }, {
+                        $addToSet: {
+                            "messages": value,
+                        }
+                    }, { new: true }).then((value) => {
+                        console.log(value);
+                        res.status(201).json({ "message": "message added", "chat": value });
+
+                    }).catch((e) => {
+                        console.log(e);
+                        res.status(400).json({ "message": "failed to add message" });
+                    });
                 }).catch((e) => {
                     console.log(e);
-                    res.status(400).json({"message": "failed to add message"});
+                    res.status(400).json({ "message": "failed to save message" });
                 });
-            }).catch((e) => {
-                console.log(e);
-                res.status(400).json({"message": "failed to save message"});
-            });
+            } else {
+                res.status(400).json({ "message": "please provide a message" });
+            }
+
         } else {
-            res.status(400).json({"message": "please provide a message"});
+            res.status(400).json({ "message": "please provide a message" });
         }
 
-        
+
     } else {
-        res.status(400).json({"message": "please provide mentor and mentee Ids"});
+        res.status(400).json({ "message": "please provide mentor and mentee Ids" });
     }
 
 }
