@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const chat = require('../../models/chat');
 const message = require('../../models/message');
 const updateChat = async (req, res) => {
-    const mentorId = mongoose.Types.ObjectId(req.params.id);
-    const menteeId = mongoose.Types.ObjectId(req.params.id2);
+    const mentorId = new mongoose.Types.ObjectId(req.params.id);
+    const menteeId = new mongoose.Types.ObjectId(req.params.id2);
     const body = req.body;
     console.log(body);
 
