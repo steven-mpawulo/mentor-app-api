@@ -7,9 +7,11 @@ const menteeRoute = require('./routes/menteeRoute');
 const matchRoute = require('./routes/matchRoute');
 const chatRoute = require('./routes/chatRoute');
 const authRoute = require('./routes/authRoute');
+const cors = require('cors');
 require('dotenv').config();
 
 app.use(express.json());
+app.use(cors());
 
 app.get('/', (req, res) => {
     res.json({"message": "welcome to my server"});
