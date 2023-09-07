@@ -11,7 +11,7 @@ const deleteMessage = async (req, res) => {
         await chat.findByIdAndUpdate({'_id': chatId}, {$pull: {'messages': {"_id": messageId}}}, {new: true}).then((value) => {
             console.log(value);
             if (value !== null) {
-                res.status(200).json({"message": "message deleted", "message": value});
+                res.status(200).json({"message": "message deleted", "messages": value});
             } else {
                 res.status(400).json({"message": "message already deleted"});
             }
