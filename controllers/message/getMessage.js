@@ -1,9 +1,10 @@
 const chat = require("../../models/chat");
+const mongoose = require('mongoose');
 
 const getMessage = async (req, res) => {
     const chatId = req.params.id;
     console.log(chatId);
-    const messageId = req.params.id2;
+    const messageId = new mongoose.Types.ObjectId(req.params.id2);
     console.log(messageId);
 
     if (chatId !== null && messageId !== null) {
