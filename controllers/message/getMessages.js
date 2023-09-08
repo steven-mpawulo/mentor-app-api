@@ -5,13 +5,13 @@ const getMessages = async (req, res) => {
     console.log(chatId);
 
     if (chatId !== null) {
-        await chat.find({ '_id': chatId }, { fields: { 'messages': 1 } }).then((value) => {
+        await chat.find({ '_id': chatId },).distinct('messages').then((value) => {
             console.log(value);
-            res.status(200).json({ "response": "messages fetched" });
+            res.status(200).json({ "response": "messages fetched", "messages": value });
 
         }).catch((e) => { 
             console.log(e);
-            res.status(400).json({"message": "failed to fetch messages"});
+            res.status(400).json({"response": "failed to fetch messages"});
         });
     } else {
         res.status(400).json({ "message": "please provide chat id" });
