@@ -7,6 +7,7 @@ const getChats = require('../controllers/chat/getChats');
 const deleteMessage = require('../controllers/message/deleteMessage');
 const updateMessage = require('../controllers/message/updateMessage');
 const getMessage = require('../controllers/message/getMessage');
+const getMessages = require('../controllers/message/getMessages');
 
 const chatRoute = express.Router();
 
@@ -18,6 +19,7 @@ chatRoute.get('/chats', getChats);
 chatRoute.delete('/chats/:id/messages/:id2', deleteMessage);
 chatRoute.put('/chats/:id/messages/:id2', updateMessage);
 chatRoute.get('/chats/:id/messages/:id2', getMessage);
+chatRoute.get('/chats/:id/messages', getMessages);
 
 
 module.exports = chatRoute;
